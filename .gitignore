@@ -9,3 +9,4 @@ testing*
 *.pyc
 *.fastq.gz
 assets/samplesheet.csv
+pgc_depression_sumstats_mtag.txt
