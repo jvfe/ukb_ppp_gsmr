@@ -1,6 +1,6 @@
 process R_LIFT {
   scratch true
-  
+
   """
   Runs an Rscript on the merged .txt file
   """
@@ -15,10 +15,10 @@ process R_LIFT {
     path(sumstats)
 
   output:
-    path("${merged}_format.txt"), emit: lifted
+    path("${merged}_format.txt"), emit: merged
 
   when:
-  task.ext.when == null || task.ext.when  
+  task.ext.when == null || task.ext.when
 
   script:
     """
