@@ -1,29 +1,31 @@
-process R_LIFT {
-  scratch true
-
+process R_MERGE {
   """
-  Runs an Rscript on the merged .txt file
+  Merge exposure and reference sumstats first
   """
 
   label 'process_medium'
-  label "r_lift"
+  tag "format_sumstats"
 
   container "juliaapolonio/mungesumstats:v1"
 
   input:
-    path(merged)
-    path(sumstats)
+    tuple val(meta), path(exposure)
+    path(ref_sumstats)
 
   output:
-    path("${merged}_format.txt"), emit: merged
+    path("*_merged.txt"), emit: merged
 
   when:
   task.ext.when == null || task.ext.when
 
   script:
-    """
-    #!/bin/bash
-    Rscript ${workflow.projectDir}/bin/format_pqtl.R $merged ${merged}_format.txt $sumstats
-    """
+  prefix = task.ext.prefix ?: "${meta.id}"
+
+  """
+  bin/format_sumstats.R \\
+    $prefix \\
+    $exposure \\
+    $sumstats
+  """
 }
 
