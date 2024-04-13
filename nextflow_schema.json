@@ -1,0 +1,74 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "https://raw.githubusercontent.com/jvfe/ukb_ppp_gsmr/master/nextflow_schema.json",
+    "title": "jvfe/ukb_ppp_gsmr pipeline parameters",
+    "description": "A pipeline for mendelian randomization",
+    "type": "object",
+    "defs": {
+        "inputs": {
+            "title": "Inputs",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "exposures": {
+                    "type": "string",
+                    "description": "Exposures samplesheet",
+                    "format": "file-path",
+                    "mimetype": "text/csv",
+                    "schema": "/assets/schema_exposures.json"
+                },
+                "outcomes": {
+                    "type": "string",
+                    "description": "Outcomes samplesheet",
+                    "format": "file-path",
+                    "mimetype": "text/csv",
+                    "schema": "/assets/schema_outcomes.json"
+                }
+            },
+            "required": [
+                "exposures",
+                "outcomes"
+            ]
+        },
+        "new_group_2": {
+            "title": "New Group 2",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "references": {
+                    "type": "string"
+                },
+                "ref_sumstats": {
+                    "type": "string"
+                }
+            }
+        },
+        "nf_validation": {
+            "title": "nf-validation",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "validationS3PathCheck": {
+                    "type": "string"
+                },
+                "validationSkipDuplicateCheck": {
+                    "type": "boolean"
+                }
+            }
+        }
+    },
+    "allOf": [
+        {
+            "$ref": "#/defs/inputs"
+        },
+        {
+            "$ref": "#/defs/new_group_2"
+        },
+        {
+            "$ref": "#/defs/nf_validation"
+        }
+    ]
+}
