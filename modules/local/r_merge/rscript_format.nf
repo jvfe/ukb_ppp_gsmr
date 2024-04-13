@@ -13,7 +13,7 @@ process R_MERGE {
     path(ref_sumstats)
 
   output:
-    path("*_merged.txt"), emit: merged
+    tuple val(meta), path("*_merged.txt"), emit: merged
 
   when:
   task.ext.when == null || task.ext.when
@@ -22,10 +22,10 @@ process R_MERGE {
   prefix = task.ext.prefix ?: "${meta.id}"
 
   """
-  bin/format_sumstats.R \\
+  format_sumstats.R \\
     $prefix \\
     $exposure \\
-    $sumstats
+    $ref_sumstats
   """
 }
 
