@@ -1,32 +1,32 @@
 process GCTA_GSMR {
-    scratch true
-    
     label 'GCTA_GSMR'
     container "quay.io/biocontainers/gcta:1.94.1--h9ee0642_0"
 
     input: 
-    path(exposure)
+    tuple val(meta), path(exposure)
+    tuple val(meta2), path(outcome)
     path(reference)
-    path(outcome)
     path(reffile)
 
     output:
-    path "${exposure.getBaseName(2)}_${outcome.baseName}.log", emit: gsmr_log
-    path "${exposure.getBaseName(2)}_${outcome.baseName}.gsmr", emit: gsmr_res, optional: true
-    path "${exposure.getBaseName(2)}_${outcome.baseName}.eff_plot.gz", emit: gsmr_effplt, optional: true
+    path "${prefix}_${prefix2}.log", emit: gsmr_log
+    path "${prefix}_${prefix2}.gsmr", emit: gsmr_res, optional: true
+    path "${prefix}_${prefix2}.eff_plot.gz", emit: gsmr_effplt, optional: true
 
     script:
+    prefix = task.ext.prefix ?: meta.id
+    prefix2 = task.ext.prefix2 ?: meta2.id
     """
     if [[ $exposure == *.gz ]]; then
         gunzip "$exposure"
     fi
 
-    echo  "${exposure.getBaseName(2)} ${exposure}" > ${exposure.getBaseName(2)}.input.txt
-    echo "BDEP $outcome" > outcome.txt
+    echo  "$prefix $exposure" > ${prefix}.txt
+    echo "$prefix2 $outcome" > ${prefix2}.txt
 
     gcta  \
     --mbfile $reffile  \
-    --gsmr-file ${exposure.getBaseName(2)}.input.txt outcome.txt \
+    --gsmr-file ${prefix}.txt ${prefix2}.txt \
     --gsmr-direction 0   \
     --gsmr-snp-min 1   \
     --diff-freq 0.5   \
@@ -34,6 +34,6 @@ process GCTA_GSMR {
     --clump-r2 0.05   \
     --heidi-thresh 0.01   \
     --effect-plot   \
-    --out "${exposure.getBaseName(2)}_${outcome.baseName}"
+    --out "${prefix}_${prefix2}"
     """
 }
