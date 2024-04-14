@@ -3,8 +3,7 @@ process GCTA_GSMR {
     container "quay.io/biocontainers/gcta:1.94.1--h9ee0642_0"
 
     input: 
-    tuple val(meta), path(exposure)
-    tuple val(meta2), path(outcome)
+    tuple val(meta), path(exposure), val(meta2), path(outcome)
     path(reference)
     path(reffile)
 

@@ -57,9 +57,10 @@ workflow {
 
     R_MERGE.out.merged.dump(tag: 'data')
 
+    R_MERGE.out.merged.combine(outcomes).set{ combinations }
+
     GCTA_GSMR (
-        R_MERGE.out.merged,
-        outcomes,
+        combinations,
         collected_ref,
         ref_file
     )
