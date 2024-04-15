@@ -22,8 +22,8 @@ output_path <- paste0(prefix, "_merged.txt")
 
 out <- exposure |>
   inner_join(ref_sumstats |>
-               select(rsID = rsid, eaf = minor_AF),
-             by = "rsID")
+               select(rsID = rsid, eaf = minor_AF, eff.allele = alt),
+             by = c("rsID", "eff.allele"))
 
 out |>
   select(
