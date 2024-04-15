@@ -12,7 +12,7 @@ exposure_path <- args[2]
 sumstats_path <- args[3]
 # prefix <- "phylum_Actinobacteria"
 # exposure_path <- "data/phylum.Actinobacteria.id.400.summary.txt.gz"
-# sumstats_path <- "data/variants.tsv.bgz"
+# sumstats_path <- "test_data/pgc_depression_sumstats_mtag.txt"
 
 ref_sumstats <- vroom(sumstats_path)
 
@@ -21,9 +21,15 @@ exposure <- vroom(exposure_path)
 output_path <- paste0(prefix, "_merged.txt")
 
 out <- exposure |>
-  inner_join(ref_sumstats |>
-               select(rsID = rsid, eaf = minor_AF, eff.allele = alt),
-             by = c("rsID", "eff.allele"))
+  inner_join(
+    ref_sumstats |>
+      select(
+        rsID = variant_id,
+        eaf = effect_allele_frequency,
+        eff.allele = effect_allele
+      ),
+    by = c("rsID", "eff.allele")
+  )
 
 out |>
   select(
