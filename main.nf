@@ -50,18 +50,21 @@ workflow {
 
     exposures.combine(outcomes).set{ combinations }
 
-    GCTA_GSMR (
-        combinations,
-        collected_ref,
-        ref_file
-    )
+    if (!params.skip_gsmr) {
+        GCTA_GSMR (
+            combinations,
+            collected_ref,
+            ref_file
+        )
+    }
 
-    TWOSAMPLEMR (
-        combinations,
-        twosamplemr_reference
-    )
-
-    PARSE_REPORT (
-        TWOSAMPLEMR.out.report
-    )
+    if (!params.skip_2smr) {
+        TWOSAMPLEMR (
+            combinations,
+            twosamplemr_reference
+        )
+        PARSE_REPORT (
+            TWOSAMPLEMR.out.report
+        )
+    }
 }

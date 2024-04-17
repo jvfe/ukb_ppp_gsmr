@@ -39,6 +39,21 @@
                 }
             }
         },
+        "skip_steps": {
+            "title": "Skip steps",
+            "type": "object",
+            "description": "",
+            "default": "",
+            "properties": {
+                "skip_gsmr": {
+                    "type": "boolean",
+                    "description": "Skip GSMR"
+                },
+                "skip_2smr": {
+                    "type": "boolean"
+                }
+            }
+        },
         "nf_validation": {
             "title": "nf-validation",
             "type": "object",
@@ -62,6 +77,9 @@
         },
         {
             "$ref": "#/definitions/gwas_references"
+        },
+        {
+            "$ref": "#/definitions/skip_steps"
         },
         {
             "$ref": "#/definitions/nf_validation"
