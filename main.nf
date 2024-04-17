@@ -22,6 +22,7 @@ include { fromSamplesheet; validateParameters } from 'plugin/nf-validation'
 
 include { GCTA_GSMR } from "./modules/local/gcta_gsmr/gsmr.nf"
 include { TWOSAMPLEMR } from "./modules/local/twosamplemr/main.nf"
+include { PARSE_REPORT } from "./modules/local/parse_report//main.nf"
 
 
 /*
@@ -58,5 +59,9 @@ workflow {
     TWOSAMPLEMR (
         combinations,
         twosamplemr_reference
+    )
+
+    PARSE_REPORT (
+        TWOSAMPLEMR.out.report
     )
 }
