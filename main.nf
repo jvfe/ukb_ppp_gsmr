@@ -22,6 +22,7 @@ include { fromSamplesheet; validateParameters } from 'plugin/nf-validation'
 
 include { R_MERGE } from "./modules/local/r_merge/rscript_format.nf"
 include { GCTA_GSMR } from "./modules/local/gcta_gsmr/gsmr.nf"
+include { TWOSAMPLEMR } from "./modules/local/twosamplemr/main.nf"
 
 
 /*
@@ -33,10 +34,9 @@ include { GCTA_GSMR } from "./modules/local/gcta_gsmr/gsmr.nf"
 
 workflow {
 
-    // exposures, outcomes
     outcomes = Channel.fromSamplesheet("outcomes")
     exposures = Channel.fromSamplesheet("exposures")
-    // banco de dados -> arquivo de texto com os filenames
+
     reference = Channel.fromPath("${params.reference}/*")
     reference
         .map { it -> it.getBaseName() }
@@ -45,17 +45,15 @@ workflow {
         .collect()
         .set { ref_file }
     reference.collect().set { collected_ref }
-    // inner join no script do r
+
     ref_sumstats = file(params.ref_sumstats)
-    ref_file.dump(tag: 'data')
-    collected_ref.dump(tag: 'data')
+
+    twosamplemr_reference = file(params.twosmr_ref)
 
     R_MERGE (
         exposures,
         ref_sumstats
     )
-
-    R_MERGE.out.merged.dump(tag: 'data')
 
     R_MERGE.out.merged.combine(outcomes).set{ combinations }
 
@@ -63,5 +61,10 @@ workflow {
         combinations,
         collected_ref,
         ref_file
+    )
+
+    TWOSAMPLEMR (
+        combinations,
+        twosamplemr_reference
     )
 }
