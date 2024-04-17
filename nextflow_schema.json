@@ -4,43 +4,40 @@
     "title": "jvfe/ukb_ppp_gsmr pipeline parameters",
     "description": "A pipeline for mendelian randomization",
     "type": "object",
-    "defs": {
-        "inputs": {
-            "title": "Inputs",
+    "definitions": {
+        "sumstats": {
+            "title": "Sumstats",
             "type": "object",
             "description": "",
             "default": "",
             "properties": {
                 "exposures": {
                     "type": "string",
-                    "description": "Exposures samplesheet",
                     "format": "file-path",
                     "mimetype": "text/csv",
-                    "schema": "/assets/schema_exposures.json"
+                    "schema": "/assets/schema_exposures.json",
+                    "description": "Samplesheet of exposure sumstats"
                 },
                 "outcomes": {
                     "type": "string",
-                    "description": "Outcomes samplesheet",
                     "format": "file-path",
                     "mimetype": "text/csv",
-                    "schema": "/assets/schema_outcomes.json"
+                    "schema": "/assets/schema_outcomes.json",
+                    "description": "Samplesheet of outcome sumstats"
                 }
-            },
-            "required": [
-                "exposures",
-                "outcomes"
-            ]
+            }
         },
-        "new_group_2": {
-            "title": "New Group 2",
-            "type": "object",
-            "description": "",
-            "default": "",
+        "gwas_references": {
+            "type": "string",
+            "title": "GWAS References",
             "properties": {
                 "references": {
                     "type": "string"
                 },
                 "ref_sumstats": {
+                    "type": "string"
+                },
+                "twosmr_ref": {
                     "type": "string"
                 }
             }
@@ -51,24 +48,26 @@
             "description": "",
             "default": "",
             "properties": {
-                "validationS3PathCheck": {
-                    "type": "string"
-                },
                 "validationSkipDuplicateCheck": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "hidden": true
+                },
+                "validationS3PathCheck": {
+                    "type": "string",
+                    "hidden": true
                 }
             }
         }
     },
     "allOf": [
         {
-            "$ref": "#/defs/inputs"
+            "$ref": "#/definitions/sumstats"
         },
         {
-            "$ref": "#/defs/new_group_2"
+            "$ref": "#/definitions/gwas_references"
         },
         {
-            "$ref": "#/defs/nf_validation"
+            "$ref": "#/definitions/nf_validation"
         }
     ]
 }
