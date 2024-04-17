@@ -15,6 +15,7 @@ process GCTA_GSMR {
     script:
     prefix = task.ext.prefix ?: meta.id
     prefix2 = task.ext.prefix2 ?: meta2.id
+    prefix_full = "${prefix}_${prefix2}"
     """
     if [[ $exposure == *.gz ]]; then
         gunzip "$exposure"
@@ -33,6 +34,6 @@ process GCTA_GSMR {
     --clump-r2 0.05   \
     --heidi-thresh 0.01   \
     --effect-plot   \
-    --out "${prefix}_${prefix2}"
+    --out $prefix_full
     """
 }
