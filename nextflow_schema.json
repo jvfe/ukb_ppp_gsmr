@@ -28,13 +28,10 @@
             }
         },
         "gwas_references": {
-            "type": "string",
+            "type": "object",
             "title": "GWAS References",
             "properties": {
                 "references": {
-                    "type": "string"
-                },
-                "ref_sumstats": {
                     "type": "string"
                 },
                 "twosmr_ref": {

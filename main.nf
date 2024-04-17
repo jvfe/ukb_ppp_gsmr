@@ -20,7 +20,6 @@ include { fromSamplesheet; validateParameters } from 'plugin/nf-validation'
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
 
-include { R_MERGE } from "./modules/local/r_merge/rscript_format.nf"
 include { GCTA_GSMR } from "./modules/local/gcta_gsmr/gsmr.nf"
 include { TWOSAMPLEMR } from "./modules/local/twosamplemr/main.nf"
 
@@ -46,16 +45,9 @@ workflow {
         .set { ref_file }
     reference.collect().set { collected_ref }
 
-    ref_sumstats = file(params.ref_sumstats)
-
     twosamplemr_reference = file(params.twosmr_ref)
 
-    R_MERGE (
-        exposures,
-        ref_sumstats
-    )
-
-    R_MERGE.out.merged.combine(outcomes).set{ combinations }
+    exposures.combine(outcomes).set{ combinations }
 
     GCTA_GSMR (
         combinations,
