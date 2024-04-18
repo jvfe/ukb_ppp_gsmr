@@ -15,6 +15,7 @@ ref <- args[5]
 # prefix_outcome <- "2100_both"
 # exposure_path <- "data/phylum_Actinobacteria_merged.txt"
 # outcome_path <- "data/2100.gwas.imputed_v3.both_sexes.tsv"
+# ref <- "data/concat_ref/"
 
 exp <-
   read_exposure_data(
@@ -92,14 +93,8 @@ if (nrow(df) > 0) {
     # Choose a return value in case of error
     NA
   },
-  warning = function(cond) {
-    message("Here's the original warning message:")
-    message(conditionMessage(cond))
-    # Choose a return value in case of warning
-    NULL
-  },
   finally = {
-    message("Some other message at the end")
+    message("Done with MR!")
   }
   )
 }
