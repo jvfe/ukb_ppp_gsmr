@@ -82,4 +82,6 @@ write.table(
   quote = F
 )
 
-mr_report(dat, output_type = "md")
+if (nrow(df) > 0) {
+  mr_report(dat, output_type = "md")
+}

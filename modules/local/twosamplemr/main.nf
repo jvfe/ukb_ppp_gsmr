@@ -13,8 +13,8 @@ process TWOSAMPLEMR {
 
   output:
     tuple val(prefix_full), path("*csv")        , emit: harmonised
-    tuple val(prefix_full), path("*md")         , emit: report
-    tuple val(prefix_full), path("figure")      , emit: figures
+    tuple val(prefix_full), path("*md")         , emit: report, optional: true
+    tuple val(prefix_full), path("figure")      , emit: figures, optional: true
 
   when:
   task.ext.when == null || task.ext.when
