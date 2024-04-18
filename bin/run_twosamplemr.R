@@ -83,5 +83,23 @@ write.table(
 )
 
 if (nrow(df) > 0) {
-  mr_report(dat, output_type = "md")
+  tryCatch({
+    mr_report(dat, output_type = "md")
+  },
+  error = function(cond) {
+    message("Here's the original error message:")
+    message(conditionMessage(cond))
+    # Choose a return value in case of error
+    NA
+  },
+  warning = function(cond) {
+    message("Here's the original warning message:")
+    message(conditionMessage(cond))
+    # Choose a return value in case of warning
+    NULL
+  },
+  finally = {
+    message("Some other message at the end")
+  }
+  )
 }

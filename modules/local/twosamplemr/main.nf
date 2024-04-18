@@ -12,7 +12,7 @@ process TWOSAMPLEMR {
     path(reference)
 
   output:
-    tuple val(prefix_full), path("*csv")        , emit: harmonised
+    tuple val(prefix_full), path("*csv")        , emit: harmonised, optional: true
     tuple val(prefix_full), path("*md")         , emit: report, optional: true
     tuple val(prefix_full), path("figure")      , emit: figures, optional: true
 
