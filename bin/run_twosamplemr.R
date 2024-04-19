@@ -44,7 +44,8 @@ mic_exp <- ieugwasr::ld_clump(
   ),
   plink_bin = genetics.binaRies::get_plink_binary(),
   # bfile = "data/concat_ref/1KG_phase3_EUR"
-  bfile = paste0(ref, "/1KG_phase3_EUR")
+  bfile = paste0(ref, "/1KG_phase3_EUR"),
+  clump_r2 = 0.03
 ) |>
   dplyr::select(-c(pval, id)) |>
   dplyr::left_join(
