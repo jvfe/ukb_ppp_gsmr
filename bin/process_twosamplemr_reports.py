@@ -18,8 +18,11 @@ def parse_args(args=None):
 
 def parse_twosamplemr_reports(report, prefix):
 
+    metrics_table = []
     with open(report) as rep_file:
-        metrics_table = rep_file.readlines()[15:21]
+        for line in rep_file.readlines()[15:21]:
+            if line.startswith('|'):
+                metrics_table.append(line)
 
     table = (
         pd.read_csv(
