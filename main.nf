@@ -57,14 +57,19 @@ workflow {
 
     R_MERGE.out.merged.combine(outcomes).set{ combinations }
 
-    GCTA_GSMR (
-        combinations,
-        collected_ref,
-        ref_file
-    )
+    if (!params.skip_gsmr) {
+        GCTA_GSMR (
+                combinations,
+                collected_ref,
+                ref_file
+                )
 
-    TWOSAMPLEMR (
-        combinations,
-        twosamplemr_reference
-    )
+    }
+
+    if (!params.skip_2smr) {
+        TWOSAMPLEMR (
+                combinations,
+                twosamplemr_reference
+                )
+    }
 }
