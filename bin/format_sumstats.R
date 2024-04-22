@@ -26,5 +26,7 @@ exposure <- vroom(exposure_path) |>
     n = num
   )
 
+output_path <- paste0(prefix, "_merged.txt")
+
 exposure |>
   vroom_write(output_path)
