@@ -24,7 +24,8 @@ exposure <- vroom(exposure_path) |>
     se = SE,
     p = pval,
     n = num
-  )
+  ) |>
+  distinct(SNP, .keep_all = TRUE)
 
 output_path <- paste0(prefix, "_merged.txt")
 
